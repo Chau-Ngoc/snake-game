@@ -2,7 +2,7 @@ import random
 
 import pygame
 
-from constants import WINDOW_WIDTH, WINDOW_HEIGHT, FRUIT_WIDTH, SNAKE_VELOCITY
+from constants import FRUIT_WIDTH, SNAKE_VELOCITY, WINDOW_HEIGHT, WINDOW_WIDTH
 
 
 def generate_random_coordinates():

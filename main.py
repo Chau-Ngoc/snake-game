@@ -2,7 +2,7 @@ import sys
 
 import pygame
 
-from constants import WINDOW_WIDTH, WINDOW_HEIGHT, BG_COLOR, FPS
+from constants import BG_COLOR, FPS, WINDOW_HEIGHT, WINDOW_WIDTH
 from objects import Fruit, Snake, generate_random_coordinates
 
 pygame.init()
