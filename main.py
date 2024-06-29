@@ -3,7 +3,7 @@ import sys
 import pygame
 
 from constants import BG_COLOR, FPS, WINDOW_HEIGHT, WINDOW_WIDTH
-from objects import Fruit, Snake, generate_random_coordinates
+from objects import Cube, Fruit, Snake, generate_random_coordinates
 
 pygame.init()
 
@@ -40,22 +40,24 @@ while running:
 
     # fill the display surface
     display_surface.fill(BG_COLOR)
-    snake.blit(display_surface)
 
-    if direction == "left" and snake.head.rect.left >= 0:
+    if direction == "left" and snake.head.left >= 0:
         snake.move_left()
-    elif direction == "right" and snake.head.rect.right <= WINDOW_WIDTH:
+    elif direction == "right" and snake.head.right <= WINDOW_WIDTH:
         snake.move_right()
-    elif direction == "up" and snake.head.rect.top >= 0:
+    elif direction == "up" and snake.head.top >= 0:
         snake.move_up()
-    elif direction == "down" and snake.head.rect.bottom <= WINDOW_HEIGHT:
+    elif direction == "down" and snake.head.bottom <= WINDOW_HEIGHT:
         snake.move_down()
 
     # fruit auto-generate at random position on the display surface
-    if snake.head.rect.colliderect(fruit.rect):
+    if snake.head.colliderect(fruit):
         fruit.generate()
+        snake.grow(Cube(snake.head.x, snake.head.y))
+        print(f"{snake.head}")
 
     fruit.blit(display_surface)
+    snake.blit(display_surface)
 
     pygame.display.update()
     clock.tick(FPS)
