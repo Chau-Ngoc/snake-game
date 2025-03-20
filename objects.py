@@ -22,28 +22,6 @@ class Node:
         return f"({x}, {y}), next: {self.next}"
 
 
-class Body:
-    def __init__(self):
-        self.head = None
-        self.tail = None
-        self.length = 0
-
-    def enqueue(self, node):
-        if self.length == 0:
-            self.head = node
-            self.tail = node
-        else:
-            self.tail.next = node
-            self.tail = self.tail.next
-        self.length += 1
-
-
-body = Body()
-body.enqueue(Node(1, 1))
-body.enqueue(Node(2, 3))
-body.enqueue(Node(6, 9))
-
-
 class Cube(Rect):
     def __init__(
         self, left, top, width=FRUIT_WIDTH, height=FRUIT_WIDTH, *args, **kwargs
@@ -81,20 +59,24 @@ class Snake:
         self.fill_color = "#FF5B00"
 
     def move_left(self):
+        prev_x, prev_y = self.head.centerx, self.head.centery
         self.head.centerx -= SNAKE_VELOCITY
-        self._shift_rect_coords((self.head.centerx, self.head.centery))
+        self._shift_rect_coords(self.head.next, (prev_x, prev_y))
 
     def move_right(self):
+        prev_x, prev_y = self.head.centerx, self.head.centery
         self.head.centerx += SNAKE_VELOCITY
-        self._shift_rect_coords((self.head.centerx, self.head.centery))
+        self._shift_rect_coords(self.head.next, (prev_x, prev_y))
 
     def move_up(self):
+        prev_x, prev_y = self.head.centerx, self.head.centery
         self.head.centery -= SNAKE_VELOCITY
-        self._shift_rect_coords((self.head.centerx, self.head.centery))
+        self._shift_rect_coords(self.head.next, (prev_x, prev_y))
 
     def move_down(self):
+        prev_x, prev_y = self.head.centerx, self.head.centery
         self.head.centery += SNAKE_VELOCITY
-        self._shift_rect_coords((self.head.centerx, self.head.centery))
+        self._shift_rect_coords(self.head.next, (prev_x, prev_y))
 
     def blit(self, surface):
         cur_cube = self.head
@@ -102,15 +84,15 @@ class Snake:
             pygame.draw.rect(surface, self.fill_color, cur_cube)
             cur_cube = cur_cube.next
 
-    def grow(self, cube):
+    def grow(self, cube: Cube):
         self.tail.next = cube
         self.tail = cube
         self.length += 1
 
-    def _shift_rect_coords(self, new_coords: tuple):
-        cur_cube = self.head
-        while cur_cube is not None:
-            tmp_coords = cur_cube.centerx, cur_cube.centery
-            cur_cube.centerx, cur_cube.centery = new_coords
-            new_coords = tmp_coords
-            cur_cube = cur_cube.next
+    def _shift_rect_coords(self, cube, new_coords: tuple):
+        if cube is not None:
+            prev_x, prev_y = cube.centerx, cube.centery
+            x, y = new_coords
+            cube.centerx = x
+            cube.centery = y
+            self._shift_rect_coords(cube.next, (prev_x, prev_y))

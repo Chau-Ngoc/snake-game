@@ -1,0 +1,14 @@
+[project]
+name = "snake_game"
+version = "2024.0.1"
+description = "Snake game with pygame"
+authors = [
+    { name = "Chau Le Ngoc", email = "playerzawesome@gmail.com" },
+]
+maintainers = [
+    { name = "Chau Le Ngoc", email = "playerzawesome@gmail.com" },
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
