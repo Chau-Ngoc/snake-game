@@ -53,7 +53,7 @@ while running:
     # fruit auto-generate at random position on the display surface
     if snake.head.colliderect(fruit):
         fruit.generate()
-        snake.grow(Cube(snake.head.x + 10, snake.head.y + 10))
+        snake.grow(Cube(snake.head.x, snake.head.y))
 
     fruit.blit(display_surface)
     snake.blit(display_surface)
